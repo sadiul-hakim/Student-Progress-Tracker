@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add/Update Topic
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="d-flex align-items-center">
+                <a class="btn btn-primary" href="{% url 'topic_page'%}">&#8592;</a>
+            </div>
+            <div class="mx-auto col-12 col-md-6">
+                <h1 class="text-primary my-3">Add/Update Topic</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{% url 'save_topic'%}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" id="id" {% if topic %} value="{{topic.id}}" {% endif %}/>
+                            <div>
+                                <label name="name">Name</label>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Enter Topic Name" {% if topic %}
+                                    value="{{topic.name}}"
+                                {% endif %} required/>
+                            </div><br/>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
