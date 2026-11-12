@@ -211,5 +211,4 @@ def batch_progress(request, b_id):
         }
 
     context = {"student_progress": student_progress, "batch": batch}
-    print(student_progress)
     return render(request, "main/progress.html", context)
