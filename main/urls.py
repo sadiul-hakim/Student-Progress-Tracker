@@ -7,6 +7,7 @@ urlpatterns = [
     path("save_batch_page/<int:b_id>/", views.save_batch_page, name="save_batch_page"),
     path("save_batch", views.save_batch, name="save_batch"),
     path("delete_batch/<int:b_id>/", views.delete_batch, name="delete_batch"),
+    path("batch_progress/<int:b_id>/", views.batch_progress, name="batch_progress"),
     # Topic
     path("topics/", views.topic_page, name="topic_page"),
     path("save_topic_page/<int:t_id>/", views.save_topic_page, name="save_topic_page"),
@@ -25,4 +26,10 @@ urlpatterns = [
         views.delete_student,
         name="delete_student",
     ),
+    path(
+        "student_progress_page/<int:s_id>/",
+        views.student_progress_page,
+        name="student_progress_page",
+    ),
+    path("toggle_progress/", views.toggle_progress, name="toggle_progress"),
 ]

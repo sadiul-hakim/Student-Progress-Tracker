@@ -23,6 +23,12 @@
                                     value="{{topic.name}}"
                                 {% endif %} required/>
                             </div><br/>
+                            <div>
+                                <label name="order">Order</label>
+                                <input type="number" name="order" id="order" class="form-control" placeholder="Enter Order" {% if topic %}
+                                    value="{{topic.order}}"
+                                {% endif %} required/>
+                            </div><br/>
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>

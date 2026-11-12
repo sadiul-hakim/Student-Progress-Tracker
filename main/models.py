@@ -11,6 +11,7 @@ class Batch(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=150)
+    order = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -22,3 +23,11 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StudentProgress(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.student} completed {self.topic}"

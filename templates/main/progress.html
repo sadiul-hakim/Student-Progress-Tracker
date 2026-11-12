@@ -1,9 +1,33 @@
 {% extends "base.html" %}
-
 {% block title %}
     Progress Page
 {% endblock %}
-
 {% block content %}
-    <h1>Progress Page</h1>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-primary me-3" onclick="window.history.back()">&#8592;</button>
+                <h1 class="text-primary m-0">{{batch.name}}</h1>
+            </div>
+            <div class="col-12 mt-4">
+                {% for student_id, data in student_progress.items %}
+                    <div class="shadow d-flex align-items-center mb-4">
+                        <div class="lead d-flex flex-column justify-content-center align-items-center border-end p-3">
+                            <span>{{data.percentage}}%</span>
+                            <span>{{data.student.name}}</span>
+                        </div>
+                        <div class="d-flex flex-grow-1 flex-wrap">
+                            {% for topic in data.topics %}
+                                <span class="text-light p-3 border-end border-bottom {% if topic.completed %}
+                                    bg-success
+                                {% else %}
+                                    bg-danger
+                                {% endif %}">{{topic.name}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock content %}

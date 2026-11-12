@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    Student Progress Page
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="d-flex align-items-center">
+                <a class="btn btn-primary" href="{% url 'student_page' b_id %}">&#8592;</a>
+            </div>
+            
+            <div class="col-12 col-md-8 mx-auto mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-primary">Topics for {{student.name}}</h2>
+                        {% for topic in topics %}
+                            <div class="border-bottom d-flex align-items-center">
+                                <div class="border-end d-flex align-items-center justify-content-center" style="width: 60px; flex-shrink: 0;">
+                                    {% if topic.completed %}
+                                        <span class="text-success" style="font-size: 18px; line-height: 1;">&#10004;</span>
+                                    {% else %}
+                                        <span class="text-danger" style="font-size: 18px; line-height: 1;">&#10008;</span>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1 d-flex p-2">
+                                    <span class="lead">{{topic.name}}</span>
+                                </div>
+                                <div class="border-start p-3">
+                                    <form method="POST" action="{% url 'toggle_progress' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="s_id" value="{{student.id}}" />
+                                        <input type="hidden" name="t_id" value="{{topic.id}}" />
+                                        <button class="btn btn-warning">Toggle</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
