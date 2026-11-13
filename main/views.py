@@ -1,13 +1,16 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Batch, Student, StudentProgress, Topic
 
 
 # Create your views here.
+@login_required
 def progress_page(request):
     return render(request, "main/progress.html")
 
 
+@login_required
 def batch_page(request):
     batches = Batch.objects.all()
     context = {"batches": batches}
@@ -15,6 +18,7 @@ def batch_page(request):
     return render(request, "main/batch/batch.html", context)
 
 
+@login_required
 def save_batch_page(request, b_id):
 
     if b_id:
@@ -25,6 +29,7 @@ def save_batch_page(request, b_id):
     return render(request, "main/batch/save_batch.html")
 
 
+@login_required
 def save_batch(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -40,6 +45,7 @@ def save_batch(request):
         return redirect("batch_page")
 
 
+@login_required
 def delete_batch(request, b_id):
     batch = get_object_or_404(Batch, id=b_id)
     if batch:
@@ -48,6 +54,7 @@ def delete_batch(request, b_id):
     return redirect("batch_page")
 
 
+@login_required
 def topic_page(request):
     topics = Topic.objects.order_by("order")
     context = {"topics": topics}
@@ -55,6 +62,7 @@ def topic_page(request):
     return render(request, "main/topic/topic.html", context)
 
 
+@login_required
 def save_topic_page(request, t_id):
 
     if t_id:
@@ -65,6 +73,7 @@ def save_topic_page(request, t_id):
     return render(request, "main/topic/save_topic.html")
 
 
+@login_required
 def save_topic(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -82,6 +91,7 @@ def save_topic(request):
         return redirect("topic_page")
 
 
+@login_required
 def delete_topic(request, t_id):
     topic = get_object_or_404(Topic, id=t_id)
     if topic:
@@ -90,6 +100,7 @@ def delete_topic(request, t_id):
     return redirect("topic_page")
 
 
+@login_required
 def student_page(request, b_id):
     batch = Batch.objects.get(id=b_id)
     students = Student.objects.filter(batch=batch)
@@ -98,6 +109,7 @@ def student_page(request, b_id):
     return render(request, "main/student/student.html", context)
 
 
+@login_required
 def save_student_page(request, b_id, s_id):
 
     if s_id:
@@ -109,6 +121,7 @@ def save_student_page(request, b_id, s_id):
     return render(request, "main/student/save_student.html", context)
 
 
+@login_required
 def save_student(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -126,6 +139,7 @@ def save_student(request):
         return redirect("student_page", b_id=b_id)
 
 
+@login_required
 def delete_student(request, id, b_id):
     student = get_object_or_404(Student, id=id)
     if student:
@@ -134,6 +148,7 @@ def delete_student(request, id, b_id):
     return redirect("student_page", b_id=b_id)
 
 
+@login_required
 def student_progress_page(request, s_id):
 
     student = get_object_or_404(Student.objects.select_related("batch"), id=s_id)
@@ -151,6 +166,7 @@ def student_progress_page(request, s_id):
     return render(request, "main/student/student_progress.html", context)
 
 
+@login_required
 def toggle_progress(request):
     if request.method == "POST":
         s_id = request.POST.get("s_id")
@@ -168,6 +184,7 @@ def toggle_progress(request):
         return redirect("student_progress_page", s_id)
 
 
+@login_required
 def batch_progress(request, b_id):
     batch = Batch.objects.get(id=b_id)
     students = Student.objects.filter(batch=batch)
@@ -182,8 +199,6 @@ def batch_progress(request, b_id):
         if progress.student_id not in completed_map:
             completed_map[progress.student_id] = set()
         completed_map[progress.student_id].add(progress.topic_id)
-
-    print(completed_map)
 
     # Get all topics ONCE
     topics = list(Topic.objects.order_by("order").values("id", "name"))
